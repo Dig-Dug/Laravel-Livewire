@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Counter;
+use App\Http\Livewire\PostsList;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,3 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/counter', Counter::class);
+Route::get('/posts', PostsList::class);
