@@ -20,3 +20,5 @@ Route::get('/', function () {
 });
 Route::get('/counter', Counter::class);
 Route::get('/posts', PostsList::class);
+Route::get('post-list', PostsList::class);
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
