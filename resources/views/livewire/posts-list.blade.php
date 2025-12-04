@@ -7,7 +7,7 @@
         wire:model="search"
         style="padding: 5px; margin-bottom: 20px; width: 100%;"
     />
-<h2>Create a New Post</h2>
+<h2>Create a New uuuPost</h2>
 
 <input 
     type="text" 
