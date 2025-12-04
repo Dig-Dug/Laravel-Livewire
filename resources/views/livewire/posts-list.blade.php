@@ -63,7 +63,7 @@
         </div>
 
         <button
-        wire:click="startEditing({{ $post->id }})"
+        wire:click="editPost({{ $post->id }})"
         style="margin-top:10px; background:grey; color:white; padding:5px 10px;"
         >Edit</button>
         <button

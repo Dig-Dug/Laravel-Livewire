@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Counter;
 use App\Http\Livewire\PostsList;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/counter', Counter::class);
-Route::get('/posts', PostsList::class);
+/*Route::get('/posts', PostsList::class);
 Route::get('post-list', PostsList::class);
-Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');*/
+Route::get('posts', PostsList::class)->name('posts');
