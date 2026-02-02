@@ -1,6 +1,10 @@
 <div>
     <h1>Posts</h1>
 
+    <div style="background: yellow; padding: 5px;">
+    POST FORM VIEW LOADED
+</div>
+
     <input 
         type="text" 
         placeholder="Search posts..." 
@@ -34,7 +38,8 @@
 
 <hr style="margin:25px 0;">
 
-    @foreach ($posts as $post)
+    {{-- @foreach ($posts as $post) --}}
+    @foreach($this-> posts as $post)
         <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;">
             <h3>{{ $post->title }}</h3>
             <p>{{ $post->body }}</p>
@@ -51,6 +56,11 @@
             wire:model="editBody"
             style="display:block; margin-bottom:10px; width:100%;height:100%;"
             ></textarea>
+
+            <select wire:model="editStatus">
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+            </select>
             <button
             wire:click="updatePost"
             style="background:green; color:white; padding: 6px 12px;"

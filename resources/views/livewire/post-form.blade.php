@@ -1,3 +1,7 @@
+<div style="background: yellow; padding: 5px;">
+    POST FORM VIEW LOADED
+</div>
+
 <div>
     <h2>Create Post</h2>
 

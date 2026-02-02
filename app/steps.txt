@@ -2,3 +2,7 @@ php artisan serve
 
 http://127.0.0.1:8000/post-list
 http://127.0.0.1:8000/posts
+
+
+creating migration (root of project) in database:
+    php artisan make:migration add_status_and_views_to_posts_table --table=posts

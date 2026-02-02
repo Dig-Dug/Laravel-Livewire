@@ -9,6 +9,7 @@ class PostForm extends Component
 {
     public $title = '';
     public $body = '';
+    public $status = 'draft';
 
     public function createPost()
     {
@@ -20,6 +21,7 @@ class PostForm extends Component
         Post::create([
             'title' => $this->title,
             'body'  => $this->body,
+            'status' => $this->status,
         ]);
 
         $this->reset(['title', 'body']);
