@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Post;
+use Illuminate\Support\Facades\Http;
 
 class PostsList extends Component
 {
@@ -21,6 +22,11 @@ class PostsList extends Component
     public $editingPostId = null;
     public $editTitle = '';
     public $editBody = '';
+
+
+    public $apiStatus = null;
+    public $apiMessage = '';
+    public $externalPostsCount = 0;
 
     protected $listeners = [
         //'postAdded'=> 'loadPosts',
@@ -105,6 +111,40 @@ class PostsList extends Component
         ->latest()
         ->get();
     }
+
+
+public function fetchExternalPosts(){
+    $response = Http::get('http://jsonplaceholder.typicode.com/posts',
+    ['_limit' => 2,]
+    );
+    $this->apiStatus = $response->status();
+    
+    
+    if(!$response->successful()){
+        $this->apiMessage = 'Failure :(';
+        return;
+    }
+    $externalPosts = $response->json();
+    $saved = 0;
+    foreach($externalPosts as $externalPost){
+        $exists = Post::where('title', $externalPost['title'])->exists();
+        if(!$exists){
+            Post::create([
+                'title' => $externalPost ['title'],
+                'body' => $externalPost ['body'],
+                'status' => 'external',
+            ]);
+            $saved++;
+        }
+    }
+    $this-> externalPostsCount = count($externalPosts);
+    $this-> apiMessage = "Imported {$saved}";
+}
+
+public function deleteExternalPosts()
+{
+    Post::where('status', 'external')->delete();
+}
 
     public function render()
     {
