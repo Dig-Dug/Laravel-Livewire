@@ -13,6 +13,7 @@ class Post extends Model
         'title',
         'body',
         'image',
+        'image_url',
     ];
 
     //optional

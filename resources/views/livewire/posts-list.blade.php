@@ -17,6 +17,8 @@
         >
             Delete External Posts
         </button>
+
+        
     </div>
 
     {{-- API Status --}}
@@ -26,6 +28,15 @@
             <p><strong>Message:</strong> {{ $apiMessage }}</p>
             <p><strong>Posts fetched:</strong> {{ $externalPostsCount }}</p>
         </div>
+    @endif
+
+    @if($imageUrl)
+    <div class="mt-3">
+        <img 
+        src="{{ $imageUrl }}"
+        class="w-full h-48 object-cover rounded shadow"
+        >
+    </div>
     @endif
 
     {{-- Search --}}
@@ -52,7 +63,10 @@
             wire:model="body"
             class="w-full p-3 border border-gray-300 rounded h-32 focus:ring focus:ring-blue-200 focus:outline-none"
         ></textarea>
-
+<button
+        type="button" wire:click="attachRandomImage"
+        class= "bg-purple-600 text-red-600 px-4 py-2 rounded hover:bg-purple-700 transition"
+        >Attach Random Image</button>
         <button
             wire:click="createPost"
             class="bg-green-600 text-black px-4 py-2 rounded hover:bg-green-700 transition"
@@ -69,6 +83,15 @@
         @foreach($this->posts as $post)
             <div class="bg-white p-4 rounded shadow hover:shadow-lg transition relative">
                 <h3 class="text-xl font-bold text-gray-800">{{ $post->title }}</h3>
+                
+                 @if($post->image_url)
+        <img 
+            src="{{ $post->image_url }}"
+            class="w-full h-48 object-cover rounded my-3"
+        >
+    @endif
+                
+                
                 <p class="text-gray-700">{{ $post->body }}</p>
                 <p class="text-sm text-gray-500 mt-1">Status: <span class="font-semibold">{{ $post->status }}</span></p>
 
@@ -107,6 +130,8 @@
                     </div>
                 @endif
 
+
+ 
                 {{-- Post Actions --}}
                 <div class="absolute top-4 right-4 flex gap-2">
                     <button

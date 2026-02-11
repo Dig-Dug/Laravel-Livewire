@@ -16,6 +16,7 @@ class PostsList extends Component
 
     public $status = 'draft';
     public $editStatus = '';
+    public $imageUrl = null;
 
 
 
@@ -61,12 +62,14 @@ class PostsList extends Component
             'title' => $this->title,
             'body'  => $this->body,
             'status'=> $this->status,
+            'image_url'=>$this->imageUrl,
         ]);
 
         // reset inputs
         $this->title = '';
         $this->body = '';
         $this->status = 'draft';
+        $this->imageUrl = null;
 
       //  $this->loadPosts(); // refresh list
     }
@@ -104,6 +107,7 @@ class PostsList extends Component
         $this->editStatus = '';
 
       //  $this->loadPosts(); // refresh
+      
     }
 
     public function getPostsProperty(){
@@ -150,4 +154,11 @@ public function deleteExternalPosts()
     {
         return view('livewire.posts-list');
     }
+
+
+    public function attachRandomImage(){
+ $this->imageUrl = "http://picsum.photos/600/400?random=". rand(1,1000);   
 }
+}
+
+

@@ -4,5 +4,17 @@ http://127.0.0.1:8000/post-list
 http://127.0.0.1:8000/posts
 
 
+npm run dev <-- for tailwind
+
 creating migration (root of project) in database:
     php artisan make:migration add_status_and_views_to_posts_table --table=posts
+
+
+open sqlite viewer:
+   >SQLite: open data base
+
+
+todo:
+C) Then real file upload
+
+And later implement the full next-level features roadmap (likes, badges, pagination, dark mode, filtering, enrichment).
