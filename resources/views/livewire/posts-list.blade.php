@@ -63,6 +63,11 @@
             wire:model="body"
             class="w-full p-3 border border-gray-300 rounded h-32 focus:ring focus:ring-blue-200 focus:outline-none"
         ></textarea>
+        <div class="mt-2">
+    <label class="block text-gray-700 font-semibold mb-1">Upload Image</label>
+    <input type="file" wire:model="uploadedImage" class="border p-2 rounded w-full">
+    @error('uploadedImage') <span class="text-red-600">{{ $message }}</span> @enderror
+</div>
 <button
         type="button" wire:click="attachRandomImage"
         class= "bg-purple-600 text-red-600 px-4 py-2 rounded hover:bg-purple-700 transition"
@@ -84,12 +89,18 @@
             <div class="bg-white p-4 rounded shadow hover:shadow-lg transition relative">
                 <h3 class="text-xl font-bold text-gray-800">{{ $post->title }}</h3>
                 
-                 @if($post->image_url)
-        <img 
-            src="{{ $post->image_url }}"
-            class="w-full h-48 object-cover rounded my-3"
-        >
-    @endif
+            @if($post->image_url)
+    <img 
+        src="{{ Str::startsWith($post->image_url, 'http') 
+                ? $post->image_url 
+                : asset('storage/' . $post->image_url) }}"
+        class="w-full h-48 object-cover rounded my-3"
+    >
+@endif
+
+    @if ($uploadedImage)
+    <img src="{{ $uploadedImage->temporaryUrl() }}" class="w-full h-48 object-cover rounded mt-2">
+@endif
                 
                 
                 <p class="text-gray-700">{{ $post->body }}</p>

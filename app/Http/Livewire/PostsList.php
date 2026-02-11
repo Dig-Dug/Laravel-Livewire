@@ -6,8 +6,11 @@ use Livewire\Component;
 use App\Models\Post;
 use Illuminate\Support\Facades\Http;
 
+use Livewire\WithFileUploads;
+
 class PostsList extends Component
 {
+    use WithFileUploads;
     //public $posts = [];
     public $search = '';
 
@@ -17,6 +20,7 @@ class PostsList extends Component
     public $status = 'draft';
     public $editStatus = '';
     public $imageUrl = null;
+    public $uploadedImage;
 
 
 
@@ -56,19 +60,24 @@ class PostsList extends Component
         $this->validate([
             'title' => 'required|min:3',
             'body'  => 'required|min:5',
+            'uploadedImage'=>'nullable|image|max:2048',
         ]);
-
+        $imagePath = null;
+        if($this->uploadedImage){
+            $imagePath = $this->uploadedImage->store('posts','public');
+        }
         Post::create([
             'title' => $this->title,
             'body'  => $this->body,
             'status'=> $this->status,
-            'image_url'=>$this->imageUrl,
+            'image_url'=> $imagePath ?? $this->imageUrl,
         ]);
 
         // reset inputs
         $this->title = '';
         $this->body = '';
         $this->status = 'draft';
+        $this->uploadedImage = null;
         $this->imageUrl = null;
 
       //  $this->loadPosts(); // refresh list
