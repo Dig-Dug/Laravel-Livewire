@@ -31,11 +31,11 @@ You can create, edit, delete, and search posts in real time—no page refresh ne
 
 ### Posts List & Create Post
 
-![Create Post](screenshots/01.png)
+![Create Post](/screenshots/01.png)
 
 ### Edit, Likes & Status Badges
 
-![Edit, Likes & Badges](screenshots/02.png)
+![Edit, Likes & Badges](/screenshots/02.png)
 
 ## Installation
 
