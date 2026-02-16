@@ -27,6 +27,16 @@ You can create, edit, delete, and search posts in real time—no page refresh ne
 
 ---
 
+## 📸 Screenshots
+
+### Posts List & Create Post
+
+![Create Post](/screenshots/01.png)
+
+### Edit, Likes & Status Badges
+
+![Edit, Likes & Badges](/screenshots/02.png)
+
 ## Installation
 
 1. Clone this repository:

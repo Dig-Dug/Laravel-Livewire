@@ -21,4 +21,15 @@ class Post extends Model
     {
         return \Str::limit($this->body ?? '', $length);
     }
+
+    public function getWordCountAttribute()
+{
+    return str_word_count(strip_tags($this->body));
+}
+
+public function getReadingTimeAttribute()
+{
+    $minutes = ceil($this->word_count / 200);
+    return max(1, $minutes);
+}
 }

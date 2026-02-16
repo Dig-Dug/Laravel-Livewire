@@ -17,4 +17,4 @@ open sqlite viewer:
 todo:
 C) Then real file upload
 
-And later implement the full next-level features roadmap (likes, badges, pagination, dark mode, filtering, enrichment).
+And later implement the full next-level features roadmap (filtering).

@@ -7,10 +7,12 @@ use App\Models\Post;
 use Illuminate\Support\Facades\Http;
 
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class PostsList extends Component
 {
     use WithFileUploads;
+    use WithPagination;
     //public $posts = [];
     public $search = '';
 
@@ -33,10 +35,13 @@ class PostsList extends Component
     public $apiMessage = '';
     public $externalPostsCount = 0;
 
+    public $darkMode = false;
+
     protected $listeners = [
         //'postAdded'=> 'loadPosts',
         'postAdded'=> '$refresh',
     ];
+    protected $paginationTheme = 'tailwind';
 
     public function mount()
     {
@@ -122,9 +127,12 @@ class PostsList extends Component
     public function getPostsProperty(){
         return Post::where('title', 'like', '%' . $this->search . '%')
         ->latest()
-        ->get();
+        //->get();
+        ->paginate(3);
     }
-
+public function updatingSearch(){
+    $this->resetPage();
+}
 
 public function fetchExternalPosts(){
     $response = Http::get('http://jsonplaceholder.typicode.com/posts',
@@ -168,6 +176,31 @@ public function deleteExternalPosts()
     public function attachRandomImage(){
  $this->imageUrl = "http://picsum.photos/600/400?random=". rand(1,1000);   
 }
+
+public function getStatusBadgeClassAttribute()
+{
+    switch ($this->status) {
+        case 'draft':
+            return 'bg-yellow-100 text-yellow-800';
+        case 'published':
+            return 'bg-green-100 text-green-800';
+        case 'external':
+            return 'bg-blue-100 text-blue-800';
+        default:
+            return 'bg-gray-100 text-gray-800';
+    }
+}
+
+public function likePost($postId)
+{
+    $post = Post::findOrFail($postId);
+    $post->increment('likes');
+}
+
+public function toggleDarkMode(){
+    $this->darkMode = !$this->darkMode;
+}
+
 }
 
 
