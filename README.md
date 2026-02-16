@@ -37,6 +37,8 @@ You can create, edit, delete, and search posts in real time—no page refresh ne
 
 ![Edit, Likes & Badges](screenshots/02.png)
 
+![Book Icon](https://www.reuters.com/resizer/v2/H3DY4TO355MVZN7D5UYXS25VGU.jpg?auth=b0b65719b846c261e91f83cc703e274645c0b3a4d13376bd3e64d50f687caf67&width=4000&quality=80)
+
 ## Installation
 
 1. Clone this repository:
