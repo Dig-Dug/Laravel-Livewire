@@ -50,6 +50,21 @@
     </div>
     @endif
 
+
+    <div class="mb-4 flex gap-4 items-center">
+            <select wire:model="filter"
+            class="p-2 border rounded shadow-sm dark:bg-gray-800 dark:text-gray-100">
+        <option value="all">All Posts</option>
+        <option value="draft">Draft</option>
+        <option value="published">Published</option>
+        <option value="external">External</option>
+         <option value="most_liked">Most Liked ❤️</option>
+        <option value="latest">Latest 🆕</option>
+        
+        </select>
+        
+    </div>
+
     {{-- Search --}}
     <input 
         type="text"

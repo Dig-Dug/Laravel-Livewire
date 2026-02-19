@@ -11,10 +11,14 @@ use Livewire\WithPagination;
 
 class PostsList extends Component
 {
+
+//Properties!!
     use WithFileUploads;
     use WithPagination;
     //public $posts = [];
+    public $filter = 'all';
     public $search = '';
+
 
     public $title = '';
     public $body = '';
@@ -169,7 +173,38 @@ public function deleteExternalPosts()
 
     public function render()
     {
-        return view('livewire.posts-list');
+         $query = Post::query();
+
+         if($this->search){
+            $query->where(function ($q){
+                $q->where('title', 'like', '&' . $this->search . '%')
+                ->orWhere('body', 'like', '&' . $this->search . '%');
+            });
+         }
+         //Filtering logic
+         switch ($this->filter){
+            case 'draft': 
+                $query->where('status','draft');
+                break;
+            case 'published':
+                $query->where('status','publisher');
+                break;
+            case 'external': 
+                $query->where('status','external');
+                break;
+            case 'most_liked':
+                $query->where('likes');
+                break;
+            case 'latest': 
+                $query->latest();
+                break;
+            
+
+         }
+         $posts = $query->paginate(7);
+        return view('livewire.posts-list',[
+            'posts'=>$posts
+        ]);
     }
 
 
@@ -201,6 +236,10 @@ public function toggleDarkMode(){
     $this->darkMode = !$this->darkMode;
 }
 
+//reset pagination when filter changes
+public function updatedFilter(){
+ $this->resetPage();   
+}
 }
 
 
