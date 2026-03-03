@@ -15,6 +15,6 @@ open sqlite viewer:
 
 
 todo:
-C) Then real file upload
-
-And later implement the full next-level features roadmap (filtering).
+Convert Filtering to a Clean Query Pipeline
+OR — Real Upgrade: Add Comments System
+OR — Make It Portfolio-Ready
