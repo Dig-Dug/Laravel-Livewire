@@ -60,6 +60,7 @@
         <option value="external">External</option>
          <option value="most_liked">Most Liked ❤️</option>
         <option value="latest">Latest 🆕</option>
+        <option value="trending">Trending 🔥</option>
         
         </select>
         
@@ -112,7 +113,7 @@
 
     {{-- Posts List --}}
     <div class="space-y-4 mt-6">
-        @foreach($this->posts as $post)
+        @foreach($posts as $post)
            <div class="bg-white dark:bg-gray-800 p-4 rounded shadow hover:shadow-lg transition relative">
 
                 <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100">{{ $post->title }}</h3>

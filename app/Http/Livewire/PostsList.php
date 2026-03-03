@@ -171,41 +171,59 @@ public function deleteExternalPosts()
     Post::where('status', 'external')->delete();
 }
 
-    public function render()
-    {
-         $query = Post::query();
+  public function render()
+{
+    $query = Post::query();
 
-         if($this->search){
-            $query->where(function ($q){
-                $q->where('title', 'like', '&' . $this->search . '%')
-                ->orWhere('body', 'like', '&' . $this->search . '%');
-            });
-         }
-         //Filtering logic
-         switch ($this->filter){
-            case 'draft': 
-                $query->where('status','draft');
-                break;
-            case 'published':
-                $query->where('status','publisher');
-                break;
-            case 'external': 
-                $query->where('status','external');
-                break;
-            case 'most_liked':
-                $query->where('likes');
-                break;
-            case 'latest': 
-                $query->latest();
-                break;
-            
-
-         }
-         $posts = $query->paginate(7);
-        return view('livewire.posts-list',[
-            'posts'=>$posts
-        ]);
+    // SEARCH
+    if ($this->search) {
+        $query->where(function ($q) {
+            $q->where('title', 'like', '%' . $this->search . '%')
+              ->orWhere('body', 'like', '%' . $this->search . '%');
+        });
     }
+
+    // FILTERING & SORTING
+    switch ($this->filter) {
+
+        case 'draft':
+            $query->where('status', 'draft');
+            break;
+
+        case 'published':
+            $query->where('status', 'published');
+            break;
+
+        case 'external':
+            $query->where('status', 'external');
+            break;
+
+        case 'most_liked':
+            $query->orderByDesc('likes');
+            break;
+    case 'trending':
+    $query->orderByRaw("
+        (likes * 3) - 
+        ((strftime('%s','now') - strftime('%s', created_at)) / 3600)
+        DESC
+    ");
+    break;
+
+        case 'latest':
+            $query->latest();
+            break;
+
+        default:
+            $query->latest();
+            break;
+    }
+
+    $posts = $query->paginate(7);
+
+    return view('livewire.posts-list', [
+        'posts' => $posts
+    ]);
+}
 
 
     public function attachRandomImage(){
