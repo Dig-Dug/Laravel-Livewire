@@ -114,10 +114,36 @@
     {{-- Posts List --}}
     <div class="space-y-4 mt-6">
         @foreach($posts as $post)
+
+
+       {{--  <div class="mb-4">
+        <a href="/posts/{{ $post->slug }}" class="text-blue-500 hover:underline">
+            {{ $post->title }}
+        </a>
+    </div> --}}
+
+
            <div class="bg-white dark:bg-gray-800 p-4 rounded shadow hover:shadow-lg transition relative">
 
-                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100">{{ $post->title }}</h3>
-                
+      <h3 class="text-xl font-bold relative group">
+    <a href="/posts/{{ $post->slug }}" class="text-blue-500 hover:underline">
+        {{ $post->title }}
+    </a>
+        {{-- Tooltip --}}
+        {{--
+/  \.-"""-./  \
+\    -   -    /
+ |   o   o   |
+ \  .-'''-.  /
+  '-\__Y__/-'
+     `---` --}}
+  <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 ...">
+        <p>📊 {{ $post->word_count }} words</p>
+        <p>⏱ {{ $post->reading_time }} min read</p>
+        <p>❤️ {{ $post->likes }} likes</p>
+    </div>
+    </div>
+</h3>
             @if($post->image_url)
     <img 
         src="{{ Str::startsWith($post->image_url, 'http') 

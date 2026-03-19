@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Counter;
 use App\Http\Livewire\PostsList;
 use App\Http\Controllers\PostController;
+use App\Http\Livewire\ShowPost;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,4 @@ Route::get('/counter', Counter::class);
 Route::get('post-list', PostsList::class);
 Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');*/
 Route::get('posts', PostsList::class)->name('posts');
+Route::get('/posts/{post:slug}', ShowPost::class);

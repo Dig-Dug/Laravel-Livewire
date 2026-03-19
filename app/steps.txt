@@ -15,6 +15,6 @@ open sqlite viewer:
 
 
 todo:
-Convert Filtering to a Clean Query Pipeline
+Convert Filtering to a Clean Query Pipeline --> done
 OR — Real Upgrade: Add Comments System
 OR — Make It Portfolio-Ready

@@ -184,7 +184,7 @@ public function deleteExternalPosts()
     }
 
     // FILTERING & SORTING
-    switch ($this->filter) {
+/*     switch ($this->filter) {
 
         case 'draft':
             $query->where('status', 'draft');
@@ -216,7 +216,18 @@ public function deleteExternalPosts()
         default:
             $query->latest();
             break;
-    }
+    } */
+   $query
+   ->when($this->filter=='draft',function($q){$q->where('status','draft');})
+   ->when($this->filter=='published',function($q){$q->where('status','published');})
+   ->when($this->filter=='external',function($q){$q->where('status','external');})
+   ->when($this->filter=='most_liked',function($q){$q->orderByDesc('likes');})
+   ->when($this->filter=='latest',function($q){$q->latest();})
+   ->when($this->filter=='trending',function($q){$q->orderByRaw(
+    "(likes*3)-((strftime('%s','now')-strftime('%', created_at)) /3600) DESC"
+   );});
+
+   if($this->filter === 'all'){$query -> latest();}
 
     $posts = $query->paginate(7);
 
