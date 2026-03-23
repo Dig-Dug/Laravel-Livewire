@@ -45,6 +45,9 @@ class PostsList extends Component
         //'postAdded'=> 'loadPosts',
         'postAdded'=> '$refresh',
     ];
+
+
+public $newComment = []; // array keyed by post id
     protected $paginationTheme = 'tailwind';
 
     public function mount()
@@ -269,6 +272,22 @@ public function toggleDarkMode(){
 public function updatedFilter(){
  $this->resetPage();   
 }
+
+public function addComment($postId)
+{
+    $post = Post::findOrFail($postId);
+
+    $this->validate([
+        "newComment.$postId" => 'required|min:1'
+    ]);
+
+    $post->comments()->create([
+        'body' => $this->newComment[$postId]
+    ]);
+
+    $this->newComment[$postId] = ''; // reset input
+}
+
 }
 
 

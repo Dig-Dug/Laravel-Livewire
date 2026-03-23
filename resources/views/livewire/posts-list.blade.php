@@ -125,23 +125,26 @@
 
            <div class="bg-white dark:bg-gray-800 p-4 rounded shadow hover:shadow-lg transition relative">
 
-      <h3 class="text-xl font-bold relative group">
+     <div class="relative group inline-block">
+
     <a href="/posts/{{ $post->slug }}" class="text-blue-500 hover:underline">
         {{ $post->title }}
     </a>
-        {{-- Tooltip --}}
-        {{--
-/  \.-"""-./  \
-\    -   -    /
- |   o   o   |
- \  .-'''-.  /
-  '-\__Y__/-'
-     `---` --}}
-  <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 ...">
-        <p>📊 {{ $post->word_count }} words</p>
-        <p>⏱ {{ $post->reading_time }} min read</p>
-        <p>❤️ {{ $post->likes }} likes</p>
+
+    {{-- Tooltip --}}
+  <div class="relative group inline-block">
+
+
+
+    <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-1
+                w-64 p-2 bg-gray-800 text-black text-sm rounded shadow-lg
+                hidden group-hover:block z-10">
+        
     </div>
+
+</div>
+
+</div>
     </div>
 </h3>
             @if($post->image_url)
@@ -162,6 +165,37 @@
 
                 <!--<p class="text-sm text-gray-500 mt-1">Status: <span class="font-semibold">{{ $post->status }}</span>
                 </p>-->
+
+{{-- Comments --}}
+<div class="mt-3 border-t pt-2">
+    <h4 class="text-sm font-semibold">Comments:</h4>
+
+    {{-- Existing comments --}}
+    @foreach($post->comments as $comment)
+        <p class="text-gray-600 text-sm mb-1">💬 {{ $comment->body }}</p>
+    @endforeach
+
+    {{-- Add new comment --}}
+    <div class="flex gap-2 mt-2">
+        <input 
+            type="text" 
+            wire:model.defer="newComment.{{ $post->id }}" 
+            placeholder="Add a comment..." 
+            class="flex-1 p-2 border rounded focus:ring focus:ring-blue-200 focus:outline-none"
+        >
+        <button 
+            wire:click="addComment({{ $post->id }})" 
+            class="px-3 py-1 bg-blue-600 text-black rounded hover:bg-blue-700 transition"
+        >
+            Send
+        </button>
+    </div>
+
+    @error("newComment.{$post->id}") 
+        <p class="text-red-600 text-sm mt-1">{{ $message }}</p> 
+    @enderror
+</div>
+
 
                 <div class="text-sm text-gray-500 dark:text-gray-400 mt-2 flex gap-4">
     <span>📊 {{ $post->word_count }} words</span>
@@ -194,6 +228,8 @@
     <span class="text-sm text-gray-600">
 {{ $post->likes }} likes
     </span>
+
+    
 </div>
 
 

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comment;
 
 class Post extends Model
 {
@@ -30,6 +32,11 @@ class Post extends Model
 public function getReadingTimeAttribute()
 {
     $minutes = ceil($this->word_count / 200);
+  
     return max(1, $minutes);
+}
+
+public function comments(){
+    return $this->hasMany(Comment::class);
 }
 }
