@@ -75,41 +75,88 @@
     />
 
     {{-- Create New Post --}}
-    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow hover:shadow-lg transition relative">
 
-        <h2 class="text-2xl font-semibold text-gray-700">Create a New Post</h2>
+<div class="flex justify-end mb-4">
+    <button 
+        wire:click="toggleCreateForm"
+        class="p-3 bg-blue-950 text-black rounded-full hover:bg-green-700 transition"
+        title="Create New Post"
+    >
+        ➕
+    </button>
+</div>
+@if($showCreateForm)
+    <div class="bg-yellow-50 dark:bg-yellow-900 p-6 rounded-lg shadow-lg border-2 border-yellow-400 dark:border-yellow-700 transition relative mt-2">
+        <h2 class="text-2xl font-bold text-yellow-800 dark:text-yellow-200 mb-2">Create a New Post</h2>
 
         <input 
             type="text"
             placeholder="Title"
             wire:model="title"
-            class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200 focus:outline-none"
+            class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200 focus:outline-none mb-2"
         >
 
         <textarea
             placeholder="Body"
             wire:model="body"
-            class="w-full p-3 border border-gray-300 rounded h-32 focus:ring focus:ring-blue-200 focus:outline-none"
+            class="w-full p-3 border border-gray-300 rounded h-32 focus:ring focus:ring-blue-200 focus:outline-none mb-2"
         ></textarea>
+
         <div class="mt-2">
-    <label class="block text-gray-700 font-semibold mb-1">Upload Image</label>
-    <input type="file" wire:model="uploadedImage" class="border p-2 rounded w-full">
-    @error('uploadedImage') <span class="text-red-600">{{ $message }}</span> @enderror
-</div>
-<button
-        type="button" wire:click="attachRandomImage"
-        class= "bg-yellow-600 px-4 py-2 rounded hover:bg-purple-700 transition"
-        >Attach Random Image</button>
-        <button
-            wire:click="createPost"
-            class="bg-green-600 text-black px-4 py-2 rounded hover:bg-green-700 transition"
-        >
-            Save Post
-        </button>
+                            <label class="block text-gray-700 font-semibold mb-1">Upload Image</label>
+                            <input type="file" wire:model="uploadedImage" class="border p-2 rounded w-full">
+                            @error('uploadedImage') <span class="text-red-600">{{ $message }}</span> @enderror
+                 </div>
+                <button
+                        type="button" wire:click="attachRandomImage"
+                        class= "bg-yellow-600 px-4 py-2 rounded hover:bg-purple-700 transition"
+                        >Attach Random Image
+                    </button>
+                <button
+                            wire:click="createPost"
+                            class="bg-green-600 text-black px-4 py-2 rounded hover:bg-green-700 transition"
+                        >
+                            Save Post
+                </button>
+    </div>
+@endif
+
+{{-- 
+
+    <div class="bg-yellow-50 dark:bg-yellow-900 p-6 rounded-lg shadow-lg border-2 border-yellow-400 dark:border-yellow-700 transition relative">
+            <h2 class="text-2xl font-bold  text-yellow-800  dark:text-yellow-200 mb-2">Create a New Post</h2>
+                <input 
+                    type="text
+                    placeholder="Title"
+                    wire:model="title"
+                    class="w-full p-3 border border-gray-300 rounded focus:ring focus:ring-blue-200 focus:outline-none"
+                >
+
+                <textarea
+                    placeholder="Body"
+                    wire:model="body"
+                    class="w-full p-3 border border-gray-300 rounded h-32 focus:ring focus:ring-blue-200 focus:outline-none"
+                ></textarea>
+                <div class="mt-2">
+                            <label class="block text-gray-700 font-semibold mb-1">Upload Image</label>
+                            <input type="file" wire:model="uploadedImage" class="border p-2 rounded w-full">
+                            @error('uploadedImage') <span class="text-red-600">{{ $message }}</span> @enderror
+                 </div>
+                <button
+                        type="button" wire:click="attachRandomImage"
+                        class= "bg-yellow-600 px-4 py-2 rounded hover:bg-purple-700 transition"
+                        >Attach Random Image
+                    </button>
+                <button
+                            wire:click="createPost"
+                            class="bg-green-600 text-black px-4 py-2 rounded hover:bg-green-700 transition"
+                        >
+                            Save Post
+                </button> --}}
 
         @error('title') <p class="text-red-600">{{ $message }}</p> @enderror
         @error('body') <p class="text-red-600">{{ $message }}</p> @enderror
-    </div>
+  </div>
 
     {{-- Posts List --}}
     <div class="space-y-4 mt-6">
@@ -123,7 +170,10 @@
     </div> --}}
 
 
-           <div class="bg-white dark:bg-gray-800 p-4 rounded shadow hover:shadow-lg transition relative">
+
+
+{{-- ----------------------------------------------- --}}
+ <div class="bg-white dark:bg-gray-800 p-4 rounded shadow hover:shadow-lg transition relative">
 
      <div class="relative group inline-block">
 
@@ -132,21 +182,17 @@
     </a>
 
     {{-- Tooltip --}}
-  <div class="relative group inline-block">
+  
 
 
 
-    <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-1
-                w-64 p-2 bg-gray-800 text-black text-sm rounded shadow-lg
-                hidden group-hover:block z-10">
-        
-    </div>
+ 
 
 </div>
 
 </div>
-    </div>
-</h3>
+
+
             @if($post->image_url)
     <img 
         src="{{ Str::startsWith($post->image_url, 'http') 
@@ -172,7 +218,22 @@
 
     {{-- Existing comments --}}
     @foreach($post->comments as $comment)
-        <p class="text-gray-600 text-sm mb-1">💬 {{ $comment->body }}</p>
+        <p class="text-gray-600 text-sm mb-1">💬 {{ $comment->body }}
+            <span>
+                ({{ $comment->created_at->diffForHumans() }})
+            </span>
+
+            <button
+            wire:click="deleteComment({{ $comment->id }})"
+            class="text-red-500 hove:text-red-700">
+                ❌
+            </button>
+        </p>
+
+
+
+
+            
     @endforeach
 
     {{-- Add new comment --}}
@@ -201,6 +262,9 @@
     <span>📊 {{ $post->word_count }} words</span>
     <span>⏱ {{ $post->reading_time }} min read</span>
 </div>
+
+
+
 <div class="mt-2">
     <span
         class="px-3 py-1 text-xs font-semibold rounded-full
@@ -228,13 +292,7 @@
     <span class="text-sm text-gray-600">
 {{ $post->likes }} likes
     </span>
-
-    
-</div>
-
-
-                {{-- Edit Section --}}
-                @if ($editingPostId === $post->id)
+    @if ($editingPostId === $post->id)
                     <div class="mt-4 space-y-2">
                         <input
                             type="text"
@@ -267,11 +325,8 @@
                         </div>
                     </div>
                 @endif
-
-
- 
-                {{-- Post Actions --}}
-                <div class="absolute top-4 right-4 flex gap-2">
+                
+<div class="mt-2">
                     <button
                         wire:click="editPost({{ $post->id }})"
                         class="bg-gray-600 text-black px-3 py-1 rounded hover:bg-gray-700 transition"
@@ -285,11 +340,25 @@
                         Delete
                     </button>
                 </div>
+
+                
+                {{-- Post Actions --}}
+              {{--   <div class="absolute top-4 right-4 flex gap-2">
+                    <button
+                        wire:click="editPost({{ $post->id }})"
+                        class="bg-gray-600 text-black px-3 py-1 rounded hover:bg-gray-700 transition"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        wire:click="deletePost({{ $post->id }})"
+                        class="bg-red-600 text-black px-3 py-1 rounded hover:bg-red-700 transition"
+                    >
+                        Delete
+                    </button>
+                </div> --}}
             </div>
-
-
-            
-        @endforeach
+ @endforeach
     </div>
     <div class="mt-6">
 {{ $this-> posts->links() }}

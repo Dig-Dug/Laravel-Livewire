@@ -41,6 +41,8 @@ class PostsList extends Component
 
     public $darkMode = false;
 
+    public $showCreateForm = false;
+
     protected $listeners = [
         //'postAdded'=> 'loadPosts',
         'postAdded'=> '$refresh',
@@ -286,6 +288,14 @@ public function addComment($postId)
     ]);
 
     $this->newComment[$postId] = ''; // reset input
+}
+
+public function deleteComment($commentId){
+    \App\Models\Comment::findOrFail($commentId)->delete();
+}
+
+public function toggleCreateForm(){
+    $this->showCreateForm = !$this->showCreateForm;
 }
 
 }

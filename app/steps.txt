@@ -18,3 +18,14 @@ todo:
 Convert Filtering to a Clean Query Pipeline --> done
 OR — Real Upgrade: Add Comments System
 OR — Make It Portfolio-Ready
+
+[ NOW ]
+👉 User System (Auth + ownership)
+
+[ NEXT ]
+→ Improve comments (delete, timestamps)---done
+→ UI polish / portfolio ready
+
+[ LATER ]
+→ Roles / permissions
+→ API / SaaS features
